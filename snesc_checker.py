@@ -20,7 +20,7 @@ def main(argv):
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
 		'Walmart' : b"<span class=\"copy-mini display-block-xs font-bold u-textBlack\">Out of stock<link itemprop=\"availability\" href=\"https://schema.org/OutOfStock\"/></span>"
 	}
-	links = {
+	urls = {
 		'Amazon' : "https://www.amazon.com/gp/product/B0721GGGS9",
 		'Bestbuy' : "http://www.bestbuy.com/site/nintendo-entertainment-system-snes-classic-edition/5919830.p?skuId=5919830",
 		'Walmart' : "https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858"
@@ -29,22 +29,41 @@ def main(argv):
 	def print_usage():
 		print("Usage: snesc_checker.py [-s <sleep_time_in_sec>]")
 
-	def search_website(website, link):
-		with urllib.request.urlopen(link) as response:
-			html = response.read()
-			if search_strings[website] in html:
-				print("{0} Unavailble {1}...".format(website, datetime.datetime.now()))
-				# send_email(sender, sender_pass, receiver, "Not in stock", "test {0}".format(link))
-			else:
-				print("\n{0} IN STOCK {1}!!!!!!!!!!!!!!!!!!!!!!!!!\n".format(website.upper(), datetime.datetime.now()))
-				send_email(sender, sender_pass, receiver, "SNES CLASSIC IN STOCK AT {0}".format(website.upper()), link)
+	def search_website(website, url):
+		if website == 'Amazon':
+			response = urllib.request.Request(url, None, headers={'User-Agent' : 'Mozilla/5.0'})
+		else:
+			response = urllib.request.Request(url)  # Bestbuy likes to freeze python if you fake the headers?
+		html = urllib.request.urlopen(response).read()
+		if search_strings[website] in html:
+			print("{0} Unavailble {1}...".format(website, datetime.datetime.now()))
+			# send_email(sender, sender_pass, receiver, "Not in stock", "test {0}".format(url))
+		else:
+			print("\n{0} IN STOCK {1}!!!!!!!!!!!!!!!!!!!!!!!!!\n".format(website.upper(), datetime.datetime.now()))
+			send_email(sender, sender_pass, receiver, "SNES CLASSIC IN STOCK AT {0}".format(website.upper()), url)
+
+	def progress_bar():
+		print("|0%", end="")
+		for k in range(int(sleep_time/2)-6):
+			print(" ", end="")
+		print("Sleep ", end="")
+		for k in range(int(sleep_time/2)-6):
+			print(" ", end="")
+		print("100%|\n|", end="")
+		
+		sleep_cnt = 0
+		while sleep_cnt < sleep_time:
+			time.sleep(1)
+			print(".", end="", flush=True)
+			sleep_cnt += 1
+		print('|')
 
 	# Parse arguments
 	if len(sys.argv) != 0:
 		try:
 			opts, args = getopt.getopt(argv, "s:", ["sleep="])
 		except getopt.GetoptError:
-			printUsage()
+			print_usage()
 			sys.exit(2)
 
 		for opt, arg in opts:
@@ -63,10 +82,10 @@ def main(argv):
 	try:
 		while True:
 			for website in websites:
-				search_website(website, links[website])
-			print("")	
-			# Wait for 30 seconds before checking again
-			time.sleep(sleep_time)
+				search_website(website, urls[website])	
+			# Wait for a while before checking again
+			# time.sleep(sleep_time)
+			progress_bar()
 	except KeyboardInterrupt:
 		print("\nExiting...")
 
