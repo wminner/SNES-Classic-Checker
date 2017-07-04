@@ -14,16 +14,18 @@ def main(argv):
 	default_receive_email = "<your_receiver_gmail>@gmail.com"
 	sleep_time = 60
 
-	websites = ['Amazon', 'Bestbuy', 'Walmart']
+	websites = ['Amazon', 'Bestbuy', 'Walmart', 'BHPhoto']
 	search_strings = {
 		'Amazon' : b"Currently unavailable.",
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
-		'Walmart' : b"<span class=\"copy-mini display-block-xs font-bold u-textBlack\">Out of stock<link itemprop=\"availability\" href=\"https://schema.org/OutOfStock\"/></span>"
+		'Walmart' : b"<span class=\"copy-mini display-block-xs font-bold u-textBlack\">Out of stock<link itemprop=\"availability\" href=\"https://schema.org/OutOfStock\"/></span>",
+		'BHPhoto' : b"data-selenium=\"notStock\">New Item - Coming Soon"
 	}
 	urls = {
 		'Amazon' : "https://www.amazon.com/gp/product/B0721GGGS9",
 		'Bestbuy' : "http://www.bestbuy.com/site/nintendo-entertainment-system-snes-classic-edition/5919830.p?skuId=5919830",
-		'Walmart' : "https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858"
+		'Walmart' : "https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858",
+		'BHPhoto' : "https://www.bhphotovideo.com/c/product/1347308-REG/nintendo_snes_super_nintendo_classic_edition.html"
 	}
 
 	def print_usage():
