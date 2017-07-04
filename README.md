@@ -11,10 +11,12 @@ The script may have a high false positive rate (false alert), since I don't exac
 I'll be adding more supported websites as they post their SNESC links, but you can easily add more yourself. Just add the website, its SNESC link, and some HTML code you think is likely to disappear when it goes in-stock.
 
 Currently supported websites:
-* [Amazon](https://www.amazon.com/gp/product/B0721GGGS9)
 * [Bestbuy](http://www.bestbuy.com/site/nintendo-entertainment-system-snes-classic-edition/5919830.p?skuId=5919830)
 * [Walmart](https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858)
 * [BHPhoto](https://www.bhphotovideo.com/c/product/1347308-REG/nintendo_snes_super_nintendo_classic_edition.html)
+
+Unsupported websites:
+* [Amazon](https://www.amazon.com/gp/product/B0721GGGS9): they have a policy of no automated queries, and employ techniques to detect and stop robots from repeated queries. You can still add Amazon back into the `websites` list if you want to try your luck.
 
 ### Supported Platforms
 
@@ -25,22 +27,18 @@ Runs on anything that can run Python3.
 ### Dependencies
 
 * [Python3](https://www.python.org/downloads/)
-* [PyAutoGUI](https://pyautogui.readthedocs.io/en/latest/install.html)
 
 ### Install
 
-1. Python3 and pip3 (to help install Python libraries): `sudo apt-get install python3 python3-pip`
-	1. Depending on your PC's operating system, PyAutoGUI has some dependencies: 
-		1. On OSX, install Quartz: `sudo pip3 install pyobjc-framework-Quartz`
-		1. On Linux, install Xlib and Tkinter: `sudo apt-get install python3-xlib python3-tk`
-	1. PyAutoGUI: `sudo pip3 install pyautogui`
-
+1. Python3 (for Linux/Mac): `sudo apt-get install python3`
+	1. For Windows, just install Python3 from executable from their website
+	
 ### Running
 
 1. Run the script
-1. Enter your SEND email: I use a low security gmail address because I don't want to mess with two-factor auth or app-specific passwords. Your input will be cached/pickled for future runs of the script.
-1. Enter your SEND email password. This is not stored anywhere and you need to enter it each time you run the script.
-1. Enter your RECEIVE email: I use my main, secure email for this, since no password is needed. This will be cached/pickled. Note that you can use the same email for both SEND and RECEIVE if you want.
+	1. Enter your SEND email: I use a low security gmail address because I don't want to mess with two-factor auth or app-specific passwords. Your input will be cached/pickled for future runs of the script.
+	1. Enter your SEND email password: This is not stored anywhere and you need to enter it each time you run the script.
+	1. Enter your RECEIVE email: I use my main, secure email for this, since no password is needed. This will be cached. Note that you can use the same email for both SEND and RECEIVE if you want.
 
 # License
-See [here](./LICENSE).
+See [here](./LICENSE). I am not using affiliate links or any other form of monitization on this code. I just want to improve my chances at getting a SNES Classic :)

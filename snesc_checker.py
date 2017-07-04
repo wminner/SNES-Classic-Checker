@@ -7,14 +7,14 @@ import time, datetime
 import urllib.request
 import smtplib
 from email.mime.text import MIMEText
-import pyautogui
+import getpass
 
 def main(argv):
 	default_send_email = "<your_sender_gmail>@gmail.com"
 	default_receive_email = "<your_receiver_gmail>@gmail.com"
 	sleep_time = 60
 
-	websites = ['Amazon', 'Bestbuy', 'Walmart', 'BHPhoto']
+	websites = ['Bestbuy', 'Walmart', 'BHPhoto']
 	search_strings = {
 		'Amazon' : b"Currently unavailable.",
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
@@ -79,6 +79,7 @@ def main(argv):
 	sender = get_gmail_address(default_send_email, "send")
 	sender_pass = get_password(sender)
 	receiver = get_gmail_address(default_receive_email, "receive")
+	print("")
 	
 	# Main loop
 	try:
@@ -117,18 +118,24 @@ def get_gmail_address(default_addr, mode):
 		with open(last_email_addr, 'rb') as fp:
 			last_addr = pickle.load(fp)
 	except IOError:
-		last_addr = default_addr
+		last_addr = None
 	
 	if mode == "send":
-		addr = pyautogui.prompt(text="Enter your {0} gmail address".format(mode), title="{0} Gmail Address".format(mode.capitalize()), default=last_addr)
+		if last_addr:
+			addr = input("Enter your {0} gmail address (or return to use {1}): ".format(mode.upper(), last_addr)) or last_addr
+		else:
+			addr = input("Enter your {0} gmail address: ".format(mode.upper()))
 	else:
-		addr = pyautogui.prompt(text="Enter your {0} gmail address (may be the same as send gmail address)".format(mode), title="{0} Gmail Address".format(mode.capitalize()), default=last_addr)		
+		if last_addr:
+			addr = input("Enter your {0} gmail address (or return to use {1}): ".format(mode.upper(), last_addr)) or last_addr
+		else:
+			addr = input("Enter your {0} gmail address: ".format(mode.upper()))
 
 	# Validate address
 	pattern = re.compile("[^@]+@gmail.com")
 	match = re.match(pattern, addr)
 	if not match:
-		pyautogui.alert(text="Gmail Address \"{0}\" is not valid!".format(addr), title="Invalid Gmail Address", button='Exit')
+		print("Gmail address \"{0}\" is not valid!".format(addr))
 		sys.exit(1)
 
 	# Save the last used IP address to pickle file
@@ -140,9 +147,9 @@ def get_gmail_address(default_addr, mode):
 
 # Gets your gmail password (does not cache)
 def get_password(email):
-	password = pyautogui.password(text="Enter password for {0}".format(email), title="Password", mask='*')
+	password = getpass.getpass("Enter password for {0}: ".format(email))
 	if not password:
-		pyautogui.alert(text="Password should not be empty!", title="Invalid Password", button='Exit')
+		print("Email password should not be empty!")
 		sys.exit(1)
 
 	return password
