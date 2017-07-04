@@ -2,11 +2,19 @@
 
 ### Overview
 
+Checks online availability of SNES Classic and sends you an email with the applicable store link if in-stock.
+
 Leave this script running to have your own personal SNES Classic availability checker. Only supports gmail right now, but you can easily edit a few lines to make it work with other services.
 
 The script may have a high false positive rate (false alert), since I don't exactly know how the HTML pages will look when the SNESC goes in-stock, but is tuned to ensure zero false negatives (missing the alert when it goes in-stock).
 
 I'll be adding more supported websites as they post their SNESC links, but you can easily add more yourself. Just add the website, its SNESC link, and some HTML code you think is likely to disappear when it goes in-stock.
+
+Currently supported websites:
+* [Amazon](https://www.amazon.com/gp/product/B0721GGGS9)
+* [Bestbuy](http://www.bestbuy.com/site/nintendo-entertainment-system-snes-classic-edition/5919830.p?skuId=5919830)
+* [Walmart](https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858)
+* [BHPhoto](https://www.bhphotovideo.com/c/product/1347308-REG/nintendo_snes_super_nintendo_classic_edition.html)
 
 ### Supported Platforms
 
