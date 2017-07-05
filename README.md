@@ -40,5 +40,16 @@ Runs on anything that can run Python3.
 	1. Enter your SEND email password: This is not stored anywhere and you need to enter it each time you run the script.
 	1. Enter your RECEIVE email: I use my main, secure email for this, since no password is needed. This will be cached. Note that you can use the same email for both SEND and RECEIVE if you want.
 
+### Usage
+
+```
+snes_checker.py [OPTION]...
+    -n <max_num_of_alerts>
+        limits the max number of alerts
+    -s <sleep_time_in_sec>
+        changes the sleep time
+    -t  test email mode
+```
+
 # License
 See [here](./LICENSE). I am not using affiliate links or any other form of monitization on this code. I just want to improve my chances at getting a SNES Classic :)
