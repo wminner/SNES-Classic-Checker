@@ -13,6 +13,9 @@ def main(argv):
 	default_send_email = "<your_sender_gmail>@gmail.com"
 	default_receive_email = "<your_receiver_gmail>@gmail.com"
 	sleep_time = 60
+	test_run = False
+	max_alerts = -1  # -1 means unlimited alerts
+	num_alerts = 0
 
 	websites = ['Bestbuy', 'Walmart', 'BHPhoto']
 	search_strings = {
@@ -29,7 +32,10 @@ def main(argv):
 	}
 
 	def print_usage():
-		print("Usage: snesc_checker.py [-s <sleep_time_in_sec>]")
+		print("Usage: snesc_checker.py [option(s)]")
+		print("  [-n <max_num_of_alerts>] limits the max number of alerts")
+		print("  [-s <sleep_time_in_sec>] changes the sleep time")
+		print("  [-t] test email mode")
 
 	def search_website(website, url):
 		if website == 'Amazon':
@@ -40,9 +46,11 @@ def main(argv):
 		if search_strings[website] in html:
 			print("{0} Unavailble {1}...".format(website, datetime.datetime.now()))
 			# send_email(sender, sender_pass, receiver, "Not in stock", "test {0}".format(url))
+			return 0
 		else:
 			print("\n{0} IN STOCK {1}!!!!!!!!!!!!!!!!!!!!!!!!!\n".format(website.upper(), datetime.datetime.now()))
 			send_email(sender, sender_pass, receiver, "SNES CLASSIC IN STOCK AT {0}".format(website.upper()), url)
+			return 1
 
 	def progress_bar():
 		print("|0%", end="")
@@ -63,29 +71,43 @@ def main(argv):
 	# Parse arguments
 	if len(sys.argv) != 0:
 		try:
-			opts, args = getopt.getopt(argv, "s:", ["sleep="])
+			opts, args = getopt.getopt(argv, "htn:s:", ["num=, sleep="])
 		except getopt.GetoptError:
 			print_usage()
 			sys.exit(2)
 
 		for opt, arg in opts:
 			if opt == '-h':
-				printUsage()
+				print_usage()
 				sys.exit()
+			elif opt == '-t':
+				test_run = True
 			elif opt in ('-s', '--sleep='):
 				sleep_time = int(arg)
+			elif opt in ('-n', '--num='):
+				max_alerts = int(arg)
+				if max_alerts <= 0:
+					print("Invalid max number of alerts! Exiting...")
+					sys.exit(2)
 
 	# Get email and password from which to send and receive alerts
 	sender = get_gmail_address(default_send_email, "send")
 	sender_pass = get_password(sender)
 	receiver = get_gmail_address(default_receive_email, "receive")
 	print("")
+
+	if test_run:
+		print("Sent test email.")
+		send_email(sender, sender_pass, receiver, "SNES Classic Checker - Test Email", "It works!")
 	
 	# Main loop
 	try:
 		while True:
 			for website in websites:
-				search_website(website, urls[website])	
+				num_alerts += search_website(website, urls[website])
+				if max_alerts >= 0 and num_alerts >= max_alerts:
+					print("Reached max number of alerts! Exiting...")
+					sys.exit()
 			# Wait for a while before checking again
 			# time.sleep(sleep_time)
 			progress_bar()
