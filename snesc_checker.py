@@ -42,7 +42,11 @@ def main(argv):
 			response = urllib.request.Request(url, None, headers={'User-Agent' : 'Mozilla/5.0'})
 		else:
 			response = urllib.request.Request(url)  # Bestbuy likes to freeze python if you fake the headers?
-		html = urllib.request.urlopen(response).read()
+		try:
+			html = urllib.request.urlopen(response).read()
+		except:
+			print("Exception occurred during {0} fetch!".format(website))
+			return 0
 		if search_strings[website] in html:
 			print("{0} Unavailble {1}...".format(website, datetime.datetime.now()))
 			# send_email(sender, sender_pass, receiver, "Not in stock", "test {0}".format(url))
