@@ -57,7 +57,7 @@ After running this full time for a few weeks on an old Raspberry Pi 2...
 
 ***Success!***
 
-![results](./results.png)
+![results](./results.PNG)
 
 
 # License
