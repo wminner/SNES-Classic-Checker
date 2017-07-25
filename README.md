@@ -51,5 +51,14 @@ snes_checker.py [OPTION]...
     -t  test email mode
 ```
 
+# Results
+
+After running this full time for a few weeks on an old Raspberry Pi 2...
+
+***Success!***
+
+![results](./results.png)
+
+
 # License
 See [here](./LICENSE). I am not using affiliate links or any other form of monitization on this code. I just want to improve my chances at getting a SNES Classic :)
