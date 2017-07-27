@@ -21,7 +21,7 @@ def main(argv):
 	search_strings = {
 		'Amazon' : b"Currently unavailable.",
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
-		'Walmart' : b"<span class=\"copy-mini display-block-xs font-bold u-textBlack\">Out of stock<link itemprop=\"availability\" href=\"https://schema.org/OutOfStock\"/></span>",
+		'Walmart' : b"<div class=\"font-semibold prod-Bot-partial-head\">This item is no longer available</div>",
 		'BHPhoto' : b"data-selenium=\"notStock\">New Item - Coming Soon"
 	}
 	urls = {
