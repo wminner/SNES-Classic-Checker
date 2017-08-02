@@ -8,6 +8,7 @@ import urllib.request
 import smtplib
 from email.mime.text import MIMEText
 import getpass
+# import browser_cookie3
 
 def main(argv):
 	default_send_email = "<your_sender_gmail>@gmail.com"
@@ -22,13 +23,15 @@ def main(argv):
 		'Amazon' : b"Currently unavailable.",
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
 		'Walmart' : b"<div class=\"font-semibold prod-Bot-partial-head\">This item is no longer available</div>",
-		'BHPhoto' : b"data-selenium=\"notStock\">New Item - Coming Soon"
+		'BHPhoto' : b"data-selenium=\"notStock\">New Item - Coming Soon",
+		'Target' : b'class="sbc-add-to-cart btn btn-primary btn-lg btn-block sbc-selected" disabled="">  coming soon  </button>'
 	}
 	urls = {
 		'Amazon' : "https://www.amazon.com/gp/product/B0721GGGS9",
 		'Bestbuy' : "http://www.bestbuy.com/site/nintendo-entertainment-system-snes-classic-edition/5919830.p?skuId=5919830",
 		'Walmart' : "https://www.walmart.com/ip/PO-HDW-PLACEHOLDER-652-WM50-Universal/55791858",
-		'BHPhoto' : "https://www.bhphotovideo.com/c/product/1347308-REG/nintendo_snes_super_nintendo_classic_edition.html"
+		'BHPhoto' : "https://www.bhphotovideo.com/c/product/1347308-REG/nintendo_snes_super_nintendo_classic_edition.html",
+		'Target' : "https://www.target.com/p/snes-classic-edition/-/A-52826093"
 	}
 
 	def print_usage():
@@ -38,13 +41,18 @@ def main(argv):
 		print("  [-t] test email mode")
 
 	def search_website(website, url):
-		if website == 'Amazon':
-			response = urllib.request.Request(url, None, headers={'User-Agent' : 'Mozilla/5.0'})
+		if website == 'Amazon' or website == 'Target':  # Not working, removed from websites list
+			# cj = browser_cookie3.firefox()
+			# opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+			opener = urllib.request.build_opener()
+			opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
 		else:
-			response = urllib.request.Request(url)  # Bestbuy likes to freeze python if you fake the headers?
+			opener = urllib.request.build_opener()
 		try:
-			html = urllib.request.urlopen(response).read()
-		except:
+			response = opener.open(url)
+			html = response.read()
+		except Exception as e:
+			print(e)
 			print("Exception occurred during {0} fetch!".format(website))
 			return 0
 		if search_strings[website] in html:

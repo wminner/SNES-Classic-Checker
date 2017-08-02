@@ -17,6 +17,7 @@ Currently supported websites:
 
 Unsupported websites:
 * [Amazon](https://www.amazon.com/gp/product/B0721GGGS9): they have a policy of no automated queries, and employ techniques to detect and stop robots from repeated queries. You can still add Amazon back into the `websites` list if you want to try your luck.
+* [Target](https://www.target.com/p/snes-classic-edition/-/A-52826093): same problem as Amazon
 
 ### Supported Platforms
 
