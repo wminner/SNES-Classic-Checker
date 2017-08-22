@@ -22,7 +22,7 @@ def main(argv):
 	search_strings = {
 		'Amazon' : b"Currently unavailable.",
 		'Bestbuy' : b"data-add-to-cart-message=\"Coming Soon\"",
-		'Walmart' : b"<div class=\"font-semibold prod-Bot-partial-head\">This item is no longer available</div>",
+		'Walmart' : b'<span class="copy-mini display-block-xs font-bold u-textBlack">Out of stock<link itemprop="availability" href="https://schema.org/OutOfStock"/></span>',
 		'BHPhoto' : b"data-selenium=\"notStock\">New Item - Coming Soon",
 		'Target' : b'class="sbc-add-to-cart btn btn-primary btn-lg btn-block sbc-selected" disabled="">  coming soon  </button>'
 	}
@@ -119,6 +119,7 @@ def main(argv):
 				num_alerts += search_website(website, urls[website])
 				if max_alerts >= 0 and num_alerts >= max_alerts:
 					print("Reached max number of alerts! Exiting...")
+					send_email(sender, sender_pass, receiver, "SNES Classic Checker - Max Alerts Reached", "Please restart SNES Classic Checker to receive more email alerts!")
 					sys.exit()
 			# Wait for a while before checking again
 			# time.sleep(sleep_time)
